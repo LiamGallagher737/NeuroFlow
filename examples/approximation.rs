@@ -1,21 +1,19 @@
 extern crate neuroflow;
-extern crate time;
 extern crate rand;
+extern crate time;
 
-use neuroflow::FeedForward;
 use neuroflow::data::DataSet;
+use neuroflow::FeedForward;
 
 use neuroflow::activators::Type::Tanh;
 
-
-
-fn main(){
+fn main() {
     let mut nn = FeedForward::new(&[1, 5, 3, 1]);
     let mut data: DataSet = DataSet::new();
     let mut i = -3.0;
 
     while i <= 2.5 {
-        data.push(&[i], &[0.5*(i.exp().sin()) - (-i.exp()).cos()]);
+        data.push(&[i], &[0.5 * (i.exp().sin()) - (-i.exp()).cos()]);
         i += 0.05;
     }
 
@@ -28,11 +26,19 @@ fn main(){
     let mut res;
 
     i = 0.0;
-    while i <= 0.3{
+    while i <= 0.3 {
         res = nn.calc(&[i])[0];
-        println!("for [{:.3}], [{:.3}] -> [{:.3}]", i, 0.5*(i.exp().sin()) - (-i.exp()).cos(), res);
+        println!(
+            "for [{:.3}], [{:.3}] -> [{:.3}]",
+            i,
+            0.5 * (i.exp().sin()) - (-i.exp()).cos(),
+            res
+        );
         i += 0.07;
     }
 
-    println!("\nSpend time: {:.3}", (time::now_utc() - prev).num_milliseconds() as f64 / 1000.0);
+    println!(
+        "\nSpend time: {:.3}",
+        (time::now_utc() - prev).num_milliseconds() as f64 / 1000.0
+    );
 }

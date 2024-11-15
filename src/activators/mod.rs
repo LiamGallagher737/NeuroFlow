@@ -10,27 +10,28 @@ pub enum Type {
     Sigmoid,
     Tanh,
     Relu,
-    Custom
+    Custom,
 }
 
-
-pub fn sigm(x: f64) -> f64{ 1.0/(1.0 + x.exp()) }
-pub fn der_sigm(x: f64) -> f64{
-    sigm(x)*(1.0 - sigm(x))
+pub fn sigm(x: f64) -> f64 {
+    1.0 / (1.0 + x.exp())
+}
+pub fn der_sigm(x: f64) -> f64 {
+    sigm(x) * (1.0 - sigm(x))
 }
 
-pub fn tanh(x: f64) -> f64{
+pub fn tanh(x: f64) -> f64 {
     x.tanh()
 }
 
-pub fn der_tanh(x: f64) -> f64{
+pub fn der_tanh(x: f64) -> f64 {
     1.0 - x.tanh().powi(2)
 }
 
-pub fn relu(x: f64) -> f64{
+pub fn relu(x: f64) -> f64 {
     f64::max(0.0, x)
 }
-pub fn der_relu(x: f64) -> f64{
+pub fn der_relu(x: f64) -> f64 {
     if x <= 0.0 {
         0.0
     } else {

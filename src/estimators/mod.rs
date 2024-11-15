@@ -1,6 +1,3 @@
-
-
-
 /// # Widrow's rule of thumb
 /// This is an empirical rule that shows the size of training sample
 /// in order to get good generalization.
@@ -9,9 +6,9 @@
 /// the size of training sample must exceed the amount of free
 /// network parameters in 10 times
 pub fn widrows(architecture: &[i32], allowed_error: f64) -> f64 {
-    let mut s = architecture[0]*(architecture[0] + 1);
+    let mut s = architecture[0] * (architecture[0] + 1);
 
-    for i in 1..architecture.len(){
+    for i in 1..architecture.len() {
         s += architecture[i] * architecture[i - 1] + architecture[i];
     }
 

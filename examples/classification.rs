@@ -1,7 +1,7 @@
 extern crate neuroflow;
-extern crate time;
 extern crate rand;
 extern crate rand_distr;
+extern crate time;
 
 use neuroflow::FeedForward;
 
@@ -10,7 +10,6 @@ use rand_distr::Normal;
 
 use neuroflow::estimators;
 use rand::{thread_rng, Rng};
-
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut nn = FeedForward::new(&[2, 3, 4, 3]);
@@ -24,22 +23,19 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let c3 = Normal::new(3f64, 0.35)?;
 
     let mut k = 0;
-    for _ in 0..training_amount{
-        if k == 0{
+    for _ in 0..training_amount {
+        if k == 0 {
             training_set.push((vec![rng.sample(c1), rng.sample(c1)], vec![1f64, 0f64, 0f64]));
             k += 1;
+        } else if k == 1 {
+            training_set.push((vec![rng.sample(c2), rng.sample(c2)], vec![0f64, 1f64, 0f64]));
+            k += 1;
+        } else if k == 2 {
+            training_set.push((vec![rng.sample(c3), rng.sample(c3)], vec![0f64, 0f64, 1f64]));
+            k += 1;
+        } else {
+            k = 0;
         }
-            else if k == 1 {
-                training_set.push((vec![rng.sample(c2), rng.sample(c2)], vec![0f64, 1f64, 0f64]));
-                k += 1;
-            }
-                else if k == 2 {
-                    training_set.push((vec![rng.sample(c3), rng.sample(c3)], vec![0f64, 0f64, 1f64]));
-                    k += 1;
-                }
-                    else {
-                        k = 0;
-                    }
     }
 
     let rnd_range = Uniform::new(0, training_set.len());
@@ -47,16 +43,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let prev = time::now_utc();
     nn.activation(neuroflow::activators::Type::Tanh);
 
-    for _ in 0..50_000{
+    for _ in 0..50_000 {
         k = rng.sample(rnd_range);
         nn.fit(&training_set[k].0, &training_set[k].1);
     }
 
-    fn check(c: &[f64], class: usize) -> bool{
+    fn check(c: &[f64], class: usize) -> bool {
         let mut max = c[0];
         let mut max_i = 0;
-        for i in 1..c.len(){
-            if max < c[i]{
+        for i in 1..c.len() {
+            if max < c[i] {
                 max = c[i];
                 max_i = i;
             }

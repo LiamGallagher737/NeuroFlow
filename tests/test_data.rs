@@ -1,16 +1,15 @@
 extern crate neuroflow;
 
-use neuroflow::FeedForward;
 use neuroflow::data::DataSet;
 use neuroflow::data::Extractable;
+use neuroflow::FeedForward;
 
 use neuroflow::activators;
 
 use std::io::Write;
 
-
 #[test]
-fn test_data_set(){
+fn test_data_set() {
     let mut ds: DataSet = DataSet::new();
     let (x, y) = (&[1.3, 4.7, 3.3], &[5.0, 4.5, 3.1]);
     ds.push(x, y);
@@ -19,7 +18,7 @@ fn test_data_set(){
 }
 
 #[test]
-fn test_load_from_csv(){
+fn test_load_from_csv() {
     {
         let mut file = std::fs::File::create("test.csv").unwrap();
         file.write_all("0,0,-,0\n".as_bytes()).unwrap();
@@ -32,7 +31,7 @@ fn test_load_from_csv(){
 
     std::fs::remove_file("test.csv").unwrap();
     match ds {
-       Ok(v) => println!("{:?}", v),
+        Ok(v) => println!("{:?}", v),
         Err(e) => {
             println!("{}", e);
             assert!(false);
@@ -41,7 +40,7 @@ fn test_load_from_csv(){
 }
 
 #[test]
-fn test_sum(){
+fn test_sum() {
     let mut data = DataSet::new();
 
     data.push(&[0f64, 0f64], &[0f64]);
@@ -57,7 +56,7 @@ fn test_sum(){
 }
 
 #[test]
-fn test_mean(){
+fn test_mean() {
     let mut data = DataSet::new();
 
     data.push(&[0f64, 0f64], &[0f64]);
@@ -73,7 +72,7 @@ fn test_mean(){
 }
 
 #[test]
-fn test_round(){
+fn test_round() {
     use neuroflow::data::Extractable;
 
     let mut data = DataSet::new();
@@ -91,7 +90,7 @@ fn test_round(){
 }
 
 #[test]
-fn test_division(){
+fn test_division() {
     use neuroflow::data::Extractable;
 
     let mut data = DataSet::new();
@@ -116,7 +115,7 @@ fn test_division(){
 }
 
 #[test]
-fn test_cv(){
+fn test_cv() {
     let mut nn = FeedForward::new(&[2, 2, 2]);
     let mut data = DataSet::new();
 

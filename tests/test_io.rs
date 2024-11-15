@@ -1,20 +1,19 @@
 extern crate neuroflow;
-extern crate time;
 extern crate rand;
+extern crate time;
 
-use std::path::Path;
 use std::fs::remove_file;
+use std::path::Path;
 
+use neuroflow::data::DataSet;
 use neuroflow::FeedForward;
-use neuroflow::data::{DataSet};
 
 use neuroflow::activators;
 
-use neuroflow::io::{save, load, to_json};
-
+use neuroflow::io::{load, save, to_json};
 
 #[test]
-fn saving_to_json(){
+fn saving_to_json() {
     let mut nn = FeedForward::new(&[2, 2, 1]);
     let mut data = DataSet::new();
 
@@ -38,7 +37,7 @@ fn saving_to_json(){
 }
 
 #[test]
-fn saving_of_neural_net(){
+fn saving_of_neural_net() {
     let mut nn = FeedForward::new(&[2, 2, 1]);
     let mut data = DataSet::new();
     let file_path = "testsave.nn";
@@ -57,13 +56,13 @@ fn saving_of_neural_net(){
 
     let p = Path::new(file_path);
     assert!(p.exists());
-    if p.exists(){
+    if p.exists() {
         remove_file(p).unwrap();
     }
 }
 
 #[test]
-fn loading_of_neural_net(){
+fn loading_of_neural_net() {
     let mut nn = FeedForward::new(&[2, 2, 1]);
     let mut data = DataSet::new();
     let file_path = "testload.nn";
@@ -91,13 +90,15 @@ fn loading_of_neural_net(){
 
     let mut res;
     let mut res1;
-    for v in sc{
+    for v in sc {
         res = nn.calc(v.0)[0];
         res1 = new_nn.calc(v.0)[0];
-        println!("for [{:.3}, {:.3}] -> [{:.3}], [{:.3}]",
-                 v.0[0], v.0[1], res, res1);
+        println!(
+            "for [{:.3}, {:.3}] -> [{:.3}], [{:.3}]",
+            v.0[0], v.0[1], res, res1
+        );
 
-        if (res - res1).abs() > 0.1{
+        if (res - res1).abs() > 0.1 {
             assert!(false);
         }
     }
@@ -107,9 +108,9 @@ fn loading_of_neural_net(){
 }
 
 #[test]
-fn load_not_existent_file(){
+fn load_not_existent_file() {
     match load::<FeedForward>("testnonexistent.nn") {
         Ok(_) => assert!(false),
-        Err(_) => assert!(true)
+        Err(_) => assert!(true),
     }
 }

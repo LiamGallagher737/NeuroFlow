@@ -5,10 +5,10 @@
 //! When you load data from file, it'll be placed into `DataSet`.
 use std;
 
-use rand::{thread_rng, Rng};
-use rand::distributions::Uniform;
-use csv;
 use crate::FeedForward;
+use csv;
+use rand::distributions::Uniform;
+use rand::{thread_rng, Rng};
 
 /// Trait for getting specific element from set.
 ///
@@ -63,7 +63,7 @@ pub trait Extractable {
 /// /* etc */
 /// ```
 #[derive(Debug, Default)]
-pub struct DataSet{
+pub struct DataSet {
     x: Vec<Vec<f64>>,
     y: Vec<Vec<f64>>,
 
@@ -81,7 +81,7 @@ impl DataSet {
     ///
     /// let mut data = DataSet::new();
     /// ```
-    pub fn new() -> DataSet{
+    pub fn new() -> DataSet {
         Self::default()
     }
 
@@ -117,18 +117,18 @@ impl DataSet {
         let mut data_set = DataSet::new();
         let mut is_x: bool;
 
-        for row in file.records(){
+        for row in file.records() {
             let records = row?;
             let mut x: Vec<f64> = Vec::new();
             let mut y: Vec<f64> = Vec::new();
 
             is_x = true;
 
-            for i in 0..records.len(){
-                if records.get(i).unwrap() == "-"{
+            for i in 0..records.len() {
+                if records.get(i).unwrap() == "-" {
                     is_x = false;
                     continue;
-                } else if let Some(v) = records.get(i){
+                } else if let Some(v) = records.get(i) {
                     if is_x {
                         x.push(v.parse()?);
                     } else {
@@ -160,18 +160,18 @@ impl DataSet {
     /// Expected output
     ///
     /// `[2.4] [2.2, 2.1]`
-    pub fn sum(&self) -> (Vec<f64>, Vec<f64>){
+    pub fn sum(&self) -> (Vec<f64>, Vec<f64>) {
         let mut sum_x = vec![0.0; self.x[0].len()];
         let mut sum_y = vec![0.0; self.y[0].len()];
 
-        for i in 0..self.x.len(){
-            for j in 0..self.x[i].len(){
+        for i in 0..self.x.len() {
+            for j in 0..self.x[i].len() {
                 sum_x[j] += self.x[i][j];
             }
         }
 
-        for i in 0..self.y.len(){
-            for j in 0..self.y[i].len(){
+        for i in 0..self.y.len() {
+            for j in 0..self.y[i].len() {
                 sum_y[j] += self.y[i][j];
             }
         }
@@ -197,16 +197,16 @@ impl DataSet {
     /// Expected output
     ///
     /// `[1.2] [1.1, 1.05]`
-    pub fn mean(&self) -> (Vec<f64>, Vec<f64>){
+    pub fn mean(&self) -> (Vec<f64>, Vec<f64>) {
         let (sum_x, sum_y) = self.sum();
         let mut mean_x = sum_x.clone().to_vec();
 
-        for i in 0..self.x[0].len(){
+        for i in 0..self.x[0].len() {
             mean_x[i] /= self.x.len() as f64;
         }
 
         let mut mean_y = sum_y.clone().to_vec();
-        for i in 0..self.y[0].len(){
+        for i in 0..self.y[0].len() {
             mean_y[i] /= self.y.len() as f64;
         }
 
@@ -228,17 +228,17 @@ impl DataSet {
     ///
     /// data.round(2);
     /// ```
-    pub fn round(&mut self, precision: u32){
+    pub fn round(&mut self, precision: u32) {
         let pow = 10f64.powi(precision as i32);
 
-        for i in 0..self.x.len(){
-            for j in 0..self.x[i].len(){
+        for i in 0..self.x.len() {
+            for j in 0..self.x[i].len() {
                 self.x[i][j] = (self.x[i][j] * pow).round() / pow;
             }
         }
 
-        for i in 0..self.y.len(){
-            for j in 0..self.y[i].len(){
+        for i in 0..self.y.len() {
+            for j in 0..self.y[i].len() {
                 self.y[i][j] = (self.y[i][j] * pow).round() / pow;
             }
         }
@@ -257,7 +257,7 @@ impl DataSet {
     /// let mut data = DataSet::new();
     /// data.push(&[1.3], &[1.2, 2.1]);
     /// ```
-    pub fn push(&mut self, x: &[f64], y: &[f64]){
+    pub fn push(&mut self, x: &[f64], y: &[f64]) {
         self.x.push(x.to_vec());
         self.y.push(y.to_vec());
     }
@@ -268,8 +268,8 @@ impl DataSet {
     ///
     /// If test set is not null it is appended to training set and then divided into
     /// training set and test set
-    pub fn divide(&mut self, proportion: f64){
-        for i in 0..self.tx.len(){
+    pub fn divide(&mut self, proportion: f64) {
+        for i in 0..self.tx.len() {
             self.x.push(self.tx[i].clone());
             self.y.push(self.ty[i].clone());
         }
@@ -277,7 +277,7 @@ impl DataSet {
         self.ty = vec![];
 
         let amount = (self.x.len() as f64 * proportion) as i32;
-        for _ in 0..amount{
+        for _ in 0..amount {
             let i = self.rand_index();
 
             self.tx.push(self.x[i].clone());
@@ -300,7 +300,7 @@ impl DataSet {
     /// data.push(&[1.3], &[1.2, 2.1]);
     /// data.remove(0);
     /// ```
-    pub fn remove(&mut self, i: usize){
+    pub fn remove(&mut self, i: usize) {
         self.x.remove(i);
         self.y.remove(i);
     }
@@ -315,10 +315,10 @@ impl DataSet {
     pub fn cv(&self, nn: &mut FeedForward) -> f64 {
         let mut error: Vec<f64> = vec![0.0; self.y[0].len()];
 
-        for i in 0..self.ty.len(){
+        for i in 0..self.ty.len() {
             let res = nn.calc(&self.tx[i]);
 
-            for j in 0..self.ty[i].len(){
+            for j in 0..self.ty[i].len() {
                 error[j] += (self.ty[i][j] - res[j]).abs();
             }
         }
@@ -330,14 +330,14 @@ impl DataSet {
     }
 }
 
-impl Extractable for DataSet{
-    fn rand(&self) -> (&Vec<f64>, &Vec<f64>){
+impl Extractable for DataSet {
+    fn rand(&self) -> (&Vec<f64>, &Vec<f64>) {
         let mut rnd_range = thread_rng();
         let k = rnd_range.sample(Uniform::new(0, self.y.len()));
 
         (&self.x[k], &self.y[k])
     }
-    fn get(&self, i: usize) -> (&Vec<f64>, &Vec<f64>){
+    fn get(&self, i: usize) -> (&Vec<f64>, &Vec<f64>) {
         (&self.x[i], &self.y[i])
     }
     fn len(&self) -> usize {

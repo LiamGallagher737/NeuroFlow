@@ -114,6 +114,8 @@
 //! ```
 //!
 
+#![expect(clippy::needless_range_loop)]
+
 pub mod activators;
 pub mod data;
 pub mod estimators;
@@ -309,7 +311,8 @@ impl FeedForward {
     /// The constructor of `FeedForward` struct
     ///
     /// * `architecture: &[i32]` - the architecture of network where each
-    /// element in slice represents amount of neurons in this layer.
+    ///   element in slice represents amount of neurons in this layer.
+    ///
     /// First element in slice is amount of neurons in input layer
     /// and the last one is amount of neurons in output layer.
     /// Denote, that vector of input data must have the equal length as input
@@ -344,7 +347,7 @@ impl FeedForward {
         nn
     }
 
-    fn forward(&mut self, x: &Vec<f64>) {
+    fn forward(&mut self, x: &[f64]) {
         let mut sum: f64;
 
         for j in 0..self.layers.len() {
@@ -379,7 +382,7 @@ impl FeedForward {
         }
     }
 
-    fn backward(&mut self, d: &Vec<f64>) {
+    fn backward(&mut self, d: &[f64]) {
         let mut sum: f64;
 
         for j in (0..self.layers.len()).rev() {
@@ -403,7 +406,7 @@ impl FeedForward {
         }
     }
 
-    fn update(&mut self, x: &Vec<f64>) {
+    fn update(&mut self, x: &[f64]) {
         for j in 0..self.layers.len() {
             for i in 0..self.layers[j].w.len() {
                 for k in 0..self.layers[j].w[i].len() {

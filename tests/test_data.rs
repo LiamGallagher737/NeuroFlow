@@ -33,8 +33,7 @@ fn test_load_from_csv() {
     match ds {
         Ok(v) => println!("{:?}", v),
         Err(e) => {
-            println!("{}", e);
-            assert!(false);
+            panic!("{e}");
         }
     }
 }

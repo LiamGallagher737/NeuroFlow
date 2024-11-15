@@ -5,9 +5,9 @@
 //! When you load data from file, it'll be placed into `DataSet`.
 
 use crate::FeedForward;
-use alloc::vec::Vec;
+#[cfg(feature = "csv")]
 use alloc::boxed::Box;
-use csv;
+use alloc::vec::Vec;
 use rand::distributions::Uniform;
 use rand::{thread_rng, Rng};
 
@@ -116,6 +116,7 @@ impl DataSet {
     ///     println!("{:?}", data);
     /// }
     /// ```
+    #[cfg(feature = "csv")]
     pub fn from_csv(file_path: &str) -> Result<DataSet, Box<dyn core::error::Error>> {
         let mut file = csv::ReaderBuilder::new()
             .has_headers(false)

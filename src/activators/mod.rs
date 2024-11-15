@@ -2,12 +2,11 @@
 //! and theirs derivatives
 
 use core::f64;
-
+#[cfg(feature = "serde")]
 use serde_derive::{Deserialize, Serialize};
 
 /// Determine types of activation functions contained in this module.
-#[allow(dead_code)]
-#[derive(Serialize, Deserialize)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum Type {
     Sigmoid,
     Tanh,

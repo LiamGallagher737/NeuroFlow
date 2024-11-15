@@ -126,12 +126,14 @@ pub mod data;
 pub mod estimators;
 pub mod io;
 
+#[cfg(feature = "serde")]
 use serde_derive::{Deserialize, Serialize};
 
 use core::default::Default;
 use core::fmt;
 use alloc::vec::Vec;
 use alloc::string::{String, ToString};
+use alloc::boxed::Box;
 use alloc::format;
 
 use data::Extractable;
@@ -139,11 +141,12 @@ use data::Extractable;
 /// Custom ErrorKind enum for handling multiple error types
 #[derive(Debug)]
 pub enum ErrorKind {
+    #[cfg(feature = "serde")]
     Encoding(bincode::Error),
+    #[cfg(feature = "serde")]
     Json(serde_json::Error),
     #[cfg(feature = "io")]
     IO(std::io::Error),
-    #[cfg(feature = "std")]
     StdError(Box<dyn core::error::Error>),
 }
 
@@ -165,6 +168,7 @@ enum Field {
 /// Necessity of this trait can be easily described when you restore `FeedForward` instance
 /// by `neuroflow::io::load` function. It calls `after` method in order to adjust
 /// activation function of neural network.
+#[cfg(feature = "serde")]
 pub trait Transform: serde::Serialize + for<'de> serde::Deserialize<'de> {
     /// The method that should be called before neural network transformation
     fn before(&mut self) {}
@@ -175,7 +179,7 @@ pub trait Transform: serde::Serialize + for<'de> serde::Deserialize<'de> {
 
 /// Struct `Layer` represents single layer of network.
 /// It is private and should not be used directly.
-#[derive(Serialize, Deserialize)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 struct Layer {
     v: Vec<f64>,
     y: Vec<f64>,
@@ -250,7 +254,7 @@ struct ActivationContainer {
 /// let d: Vec<f64> = nn.calc(&[1.02]).to_vec();
 /// ```
 ///
-#[derive(Serialize, Deserialize)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct FeedForward {
     layers: Vec<Layer>,
     learn_rate: f64,
@@ -259,7 +263,7 @@ pub struct FeedForward {
 
     act_type: activators::Type,
 
-    #[serde(skip_deserializing, skip_serializing)]
+    #[cfg_attr(feature = "serde", serde(skip_deserializing, skip_serializing))]
     act: ActivationContainer,
 }
 
@@ -641,6 +645,7 @@ impl FeedForward {
     }
 }
 
+#[cfg(feature = "serde")]
 impl Transform for FeedForward {
     fn after(&mut self) {
         match self.act_type {

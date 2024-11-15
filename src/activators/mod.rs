@@ -3,6 +3,8 @@
 
 use std::f64;
 
+use serde_derive::{Deserialize, Serialize};
+
 /// Determine types of activation functions contained in this module.
 #[allow(dead_code)]
 #[derive(Serialize, Deserialize)]

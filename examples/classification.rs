@@ -1,8 +1,3 @@
-extern crate neuroflow;
-extern crate rand;
-extern crate rand_distr;
-extern crate time;
-
 use neuroflow::FeedForward;
 
 use rand::distributions::Uniform;

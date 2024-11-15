@@ -121,15 +121,7 @@ pub mod data;
 pub mod estimators;
 pub mod io;
 
-extern crate bincode;
-extern crate csv;
-extern crate rand;
-extern crate serde;
-extern crate serde_json;
-
-#[macro_use]
-extern crate serde_derive;
-
+use serde_derive::{Deserialize, Serialize};
 use std::default::Default;
 use std::fmt;
 

@@ -1,7 +1,3 @@
-extern crate neuroflow;
-extern crate rand;
-extern crate time;
-
 use std::fs::remove_file;
 use std::path::Path;
 

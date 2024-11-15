@@ -1,5 +1,3 @@
-extern crate neuroflow;
-
 use neuroflow::data::DataSet;
 use neuroflow::data::Extractable;
 use neuroflow::FeedForward;

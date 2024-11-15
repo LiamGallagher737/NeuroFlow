@@ -1,7 +1,3 @@
-extern crate neuroflow;
-extern crate rand;
-extern crate time;
-
 use neuroflow::data::{DataSet, Extractable};
 use neuroflow::FeedForward;
 

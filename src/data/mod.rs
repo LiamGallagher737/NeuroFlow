@@ -8,7 +8,7 @@ use std;
 use rand::{thread_rng, Rng};
 use rand::distributions::Uniform;
 use csv;
-use FeedForward;
+use crate::FeedForward;
 
 /// Trait for getting specific element from set.
 ///

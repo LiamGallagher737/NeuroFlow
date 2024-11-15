@@ -29,9 +29,8 @@ use std::io::{Write, BufReader};
 use serde;
 use serde_json;
 use bincode::{serialize, deserialize_from};
-use Transform;
-
-use ErrorKind;
+use crate::Transform;
+use crate::ErrorKind;
 
 /// Saves given neural network to file specified by `file_path`.
 ///

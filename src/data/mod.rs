@@ -3,7 +3,6 @@
 //! The most valuable unit of this module is `DataSet` struct
 //! (which implement `Executable` trait) for easy managing of data.
 //! When you load data from file, it'll be placed into `DataSet`.
-use std;
 
 use crate::FeedForward;
 use csv;
@@ -115,7 +114,7 @@ impl DataSet {
     ///     println!("{:?}", data);
     /// }
     /// ```
-    pub fn from_csv(file_path: &str) -> Result<DataSet, Box<dyn std::error::Error>> {
+    pub fn from_csv(file_path: &str) -> Result<DataSet, Box<dyn core::error::Error>> {
         let mut file = csv::ReaderBuilder::new()
             .has_headers(false)
             .from_path(file_path)?;

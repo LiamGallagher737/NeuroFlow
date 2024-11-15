@@ -114,6 +114,8 @@
 //! ```
 //!
 
+#![deny(clippy::std_instead_of_core, clippy::std_instead_of_alloc, clippy::alloc_instead_of_core)]
+
 #![expect(clippy::needless_range_loop)]
 
 pub mod activators;
@@ -122,8 +124,8 @@ pub mod estimators;
 pub mod io;
 
 use serde_derive::{Deserialize, Serialize};
-use std::default::Default;
-use std::fmt;
+use core::default::Default;
+use core::fmt;
 
 use data::Extractable;
 
@@ -133,7 +135,7 @@ pub enum ErrorKind {
     IO(std::io::Error),
     Encoding(bincode::Error),
     Json(serde_json::Error),
-    StdError(Box<dyn std::error::Error>),
+    StdError(Box<dyn core::error::Error>),
 }
 
 /// The struct that points different fields of network.

@@ -62,7 +62,7 @@ pub trait Extractable {
 ///
 /// /* etc */
 /// ```
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct DataSet{
     x: Vec<Vec<f64>>,
     y: Vec<Vec<f64>>,
@@ -82,13 +82,7 @@ impl DataSet {
     /// let mut data = DataSet::new();
     /// ```
     pub fn new() -> DataSet{
-        return DataSet {
-            x: vec![],
-            y: vec![],
-
-            tx: vec![],
-            ty: vec![],
-        }
+        Self::default()
     }
 
     /// Read data from csv file and parse it to the `DataSet` instance.

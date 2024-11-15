@@ -274,7 +274,7 @@ impl Layer {
 
             nl.w.push(v);
         }
-        return nl;
+        nl
     }
 
     fn bind(&mut self, index: usize){
@@ -327,7 +327,7 @@ impl FeedForward {
             nn.layers.push(Layer::new(architecture[i], architecture[i - 1]))
         }
 
-        return nn;
+        nn
     }
 
     fn forward(&mut self, x: &Vec<f64>){
@@ -396,12 +396,10 @@ impl FeedForward {
                 for k in 0..self.layers[j].w[i].len(){
                     if j == 0 {
                         self.layers[j].w[i][k] += self.learn_rate * self.layers[j].delta[i]*x[k];
+                    } else if k == 0{
+                        self.layers[j].w[i][k] += self.learn_rate * self.layers[j].delta[i];
                     } else {
-                        if k == 0{
-                            self.layers[j].w[i][k] += self.learn_rate * self.layers[j].delta[i];
-                        } else {
-                            self.layers[j].w[i][k] += self.learn_rate * self.layers[j].delta[i]*self.layers[j - 1].y[k - 1];
-                        }
+                        self.layers[j].w[i][k] += self.learn_rate * self.layers[j].delta[i]*self.layers[j - 1].y[k - 1];
                     }
                     self.layers[j].w[i][k] += self.momentum * self.layers[j].prev_delta[i];
                 }
@@ -459,7 +457,7 @@ impl FeedForward {
     pub fn train<T>(&mut self, data: &T, iterations: i64) where T: Extractable{
         for _ in 0..iterations{
             let (x, y) = data.rand();
-            self.fit(&x, &y);
+            self.fit(x, y);
         }
     }
 
@@ -646,7 +644,7 @@ impl Default for ActivationContainer{
 
 impl fmt::Display for FeedForward {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result{
-        let mut buf: String = format!("**Induced field**\n");
+        let mut buf: String = "**Induced field**\n".to_string();
 
         for v in self.layers.iter(){
             for val in v.v.iter(){

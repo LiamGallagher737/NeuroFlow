@@ -74,7 +74,7 @@ pub fn save<T: Transform>(obj: &mut T, file_path: &str) -> Result<(), ErrorKind>
 /// let mut new_nn: FeedForward = io::load("test.flow")
 ///     .unwrap_or(FeedForward::new(&[2, 2, 1]));
 /// ```
-pub fn load<'b, T>(file_path: &'b str) -> Result<T, ErrorKind> where T: Transform{
+pub fn load<T>(file_path: &str) -> Result<T, ErrorKind> where T: Transform{
     let file = File::open(file_path).map_err(ErrorKind::IO)?;
     let mut buf = BufReader::new(file);
 

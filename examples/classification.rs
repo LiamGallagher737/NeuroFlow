@@ -68,21 +68,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         sample = [rng.sample(c1), rng.sample(c1)];
         let res = nn.calc(&sample);
         println!("for: [{:?}], [1, 0, 0] -> {:?}", sample, res);
-        assert!(check(&res, 0));
+        assert!(check(res, 0));
     }
 
     {
         sample = [rng.sample(c2), rng.sample(c2)];
         let res = nn.calc(&sample);
         println!("for: [{:?}], [0, 1, 0] -> {:?}", sample, res);
-        assert!(check(&res, 1));
+        assert!(check(res, 1));
     }
 
     {
         sample = [rng.sample(c3), rng.sample(c3)];
         let res = nn.calc(&sample);
         println!("for: [{:?}], [0, 0, 1] -> {:?}", sample, res);
-        assert!(check(&res, 2));
+        assert!(check(res, 2));
     }
 
     println!("\nSpend time: {}", (time::now_utc() - prev));

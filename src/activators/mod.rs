@@ -1,7 +1,7 @@
 //! Module contains popular neural networks activation functions
 //! and theirs derivatives
 
-use std::f64;
+use core::f64;
 
 use serde_derive::{Deserialize, Serialize};
 

@@ -114,9 +114,12 @@
 //! ```
 //!
 
+#![cfg_attr(not(feature = "std"), no_std)]
 #![deny(clippy::std_instead_of_core, clippy::std_instead_of_alloc, clippy::alloc_instead_of_core)]
 
 #![expect(clippy::needless_range_loop)]
+
+extern crate alloc;
 
 pub mod activators;
 pub mod data;
@@ -124,17 +127,23 @@ pub mod estimators;
 pub mod io;
 
 use serde_derive::{Deserialize, Serialize};
+
 use core::default::Default;
 use core::fmt;
+use alloc::vec::Vec;
+use alloc::string::{String, ToString};
+use alloc::format;
 
 use data::Extractable;
 
 /// Custom ErrorKind enum for handling multiple error types
 #[derive(Debug)]
 pub enum ErrorKind {
-    IO(std::io::Error),
     Encoding(bincode::Error),
     Json(serde_json::Error),
+    #[cfg(feature = "io")]
+    IO(std::io::Error),
+    #[cfg(feature = "std")]
     StdError(Box<dyn core::error::Error>),
 }
 
@@ -257,10 +266,10 @@ pub struct FeedForward {
 impl Layer {
     fn new(amount: i32, input: i32) -> Layer {
         let mut nl = Layer {
-            v: vec![],
-            y: vec![],
-            delta: vec![],
-            prev_delta: vec![],
+            v: Vec::new(),
+            y: Vec::new(),
+            delta: Vec::new(),
+            prev_delta: Vec::new(),
             w: Vec::new(),
         };
         let mut v: Vec<f64>;

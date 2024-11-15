@@ -15,6 +15,11 @@ exclude = ["examples/*", "tests/*"]
 [badges]
 codecov = { repository = "MikhailKravets/NeuroFlow", branch = "master", service = "github" }
 
+[features]
+default = ["std", "io"]
+std = []
+io = []
+
 [dependencies]
 rand = "~0.8"
 serde = "~1.0"

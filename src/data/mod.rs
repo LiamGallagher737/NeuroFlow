@@ -5,6 +5,8 @@
 //! When you load data from file, it'll be placed into `DataSet`.
 
 use crate::FeedForward;
+use alloc::vec::Vec;
+use alloc::boxed::Box;
 use csv;
 use rand::distributions::Uniform;
 use rand::{thread_rng, Rng};
@@ -165,8 +167,8 @@ impl DataSet {
     ///
     /// `[2.4] [2.2, 2.1]`
     pub fn sum(&self) -> (Vec<f64>, Vec<f64>) {
-        let mut sum_x = vec![0.0; self.x[0].len()];
-        let mut sum_y = vec![0.0; self.y[0].len()];
+        let mut sum_x = alloc::vec![0.0; self.x[0].len()];
+        let mut sum_y = alloc::vec![0.0; self.y[0].len()];
 
         for i in 0..self.x.len() {
             for j in 0..self.x[i].len() {
@@ -277,8 +279,8 @@ impl DataSet {
             self.x.push(self.tx[i].clone());
             self.y.push(self.ty[i].clone());
         }
-        self.tx = vec![];
-        self.ty = vec![];
+        self.tx = Vec::new();
+        self.ty = Vec::new();
 
         let amount = (self.x.len() as f64 * proportion) as i32;
         for _ in 0..amount {
@@ -317,7 +319,7 @@ impl DataSet {
     /// Don't use this method. It is only for me and will be deleted
     /// as soon as possible
     pub fn cv(&self, nn: &mut FeedForward) -> f64 {
-        let mut error: Vec<f64> = vec![0.0; self.y[0].len()];
+        let mut error: Vec<f64> = alloc::vec![0.0; self.y[0].len()];
 
         for i in 0..self.ty.len() {
             let res = nn.calc(&self.tx[i]);

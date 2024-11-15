@@ -24,6 +24,8 @@
 //!     .unwrap_or(FeedForward::new(&[2, 2, 1]));
 //! ```
 
+#![cfg(feature = "io")]
+
 use crate::ErrorKind;
 use crate::Transform;
 use bincode::{deserialize_from, serialize};

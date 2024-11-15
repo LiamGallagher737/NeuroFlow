@@ -38,6 +38,11 @@ pub trait Extractable {
     ///
     /// * `return` - length of set.
     fn len(&self) -> usize;
+
+    /// Check if the set is empty
+    fn is_empty(&self) -> bool {
+        self.len() == 0
+    }
 }
 
 /// Container for data storage. It is not important to use it but it can significantly

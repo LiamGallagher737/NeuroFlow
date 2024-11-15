@@ -101,7 +101,7 @@ impl DataSet {
     ///
     /// * `file_path: &str` - path to `csv` file;
     /// * `return -> Result<DataSet, Box<std::error::Error>>` - return new `DataSet`
-    /// instance if Ok.
+    ///   instance if Ok.
     ///
     /// # Examples
     ///

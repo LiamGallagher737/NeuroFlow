@@ -63,7 +63,7 @@ pub fn save<T: Transform>(obj: &mut T, file_path: &str) -> Result<(), ErrorKind>
 ///
 /// * `file_path: &'b str` - path to the file;
 /// * `return -> Result<T, IOError>` - if Ok returns loaded neural network (Note, you must
-/// apparently specify the type T).
+///   apparently specify the type T).
 ///
 /// # Examples
 ///
